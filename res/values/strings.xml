@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello teaculture-client!</string>
+    <string name="app_name">teaculture-client</string>
+
+    <string name="no_tearooms_around">No tearooms around</string>
+    
+    <string name="menu_refresh">Refresh list</string>
+</resources>

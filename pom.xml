@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cz.teaculture</groupId>
+	<artifactId>teaculture-client</artifactId>
+	<version>0.1</version>
+	<packaging>apk</packaging>
+	<name>teaculture-client</name>
+
+	<properties>
+		<android-platform>8</android-platform>
+		<maven-android-plugin-version>2.8.4</maven-android-plugin-version>
+		<maven-compiler-plugin-version>2.3.2</maven-compiler-plugin-version>
+		<com.google.android-version>2.2.1</com.google.android-version>
+		<org.springframework.android-version>1.0.0.M4</org.springframework.android-version>
+		<commons-httpclient-version>3.1</commons-httpclient-version>
+        <org.codehaus.jackson-version>1.8.3</org.codehaus.jackson-version>
+        <gson-version>1.7.1</gson-version>
+        
+        <maven-eclipse-plugin-version>2.8</maven-eclipse-plugin-version>
+        <java-version>1.6</java-version>
+	</properties>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>oss.sonatype.org-jayway-snapshots</id>
+			<name>Jayway OpenSource SNAPSHOTs on Sonatype.org</name>
+			<url>http://oss.sonatype.org/content/repositories/jayway-snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>${com.google.android-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.android.maps</groupId>
+			<artifactId>android-maps</artifactId>
+			<version>${com.google.android-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.android</groupId>
+			<artifactId>spring-android-rest-template</artifactId>
+			<version>${org.springframework.android-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${org.codehaus.jackson-version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+
+			<plugin>
+				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<artifactId>maven-android-plugin</artifactId>
+				<version>${maven-android-plugin-version}</version>
+				<configuration>
+					<sdk>
+						<path>${android.home}</path>
+						<platform>${android-platform}</platform>
+					</sdk>
+					<emulator>
+						<avd>Android2.1</avd>
+					</emulator>
+					<deleteConflictingFiles>true</deleteConflictingFiles>
+					<undeployBeforeDeploy>true</undeployBeforeDeploy>
+				</configuration>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin-version}</version>
+				<configuration>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
+                </configuration>
+			</plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>${maven-eclipse-plugin-version}</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+            <id>org.springframework.maven.snapshot</id>
+            <name>Spring Maven Snapshot Repository</name>
+            <url>http://maven.springframework.org/snapshot</url>
+            <releases><enabled>false</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+        <repository>
+            <id>org.springframework.maven.milestone</id>
+            <name>Spring Maven Milestone Repository</name>
+            <url>http://maven.springframework.org/milestone</url>
+            <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+	</repositories>
+</project>
