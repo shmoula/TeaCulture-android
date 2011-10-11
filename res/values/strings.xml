@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello teaculture-client!</string>
-    <string name="app_name">teaculture-client</string>
+    <string name="app_name">TeaCulture</string>
 
-    <string name="no_tearooms_around">No tearooms around</string>
+    <string name="no_tearooms_around">Zadne cajovny</string>
     
-    <string name="menu_refresh">Refresh list</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_map">Mapa</string>
+    <string name="menu_info">Informace</string>
+    
+    <string name="info">Android klient pro web TeaCulture.</string>
+    <string name="author">---</string>
+    <string name="website">Stranky projektu jsou http://www.teaculture.cz/</string>
+    <string name="source">Zdrojak je na https://github.com/shmoula/TeaCulture-android</string>
 </resources>

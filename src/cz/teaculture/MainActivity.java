@@ -14,6 +14,7 @@ import cz.teaculture.util.Stuff;
 import cz.teaculture.util.Tea;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -45,7 +46,10 @@ public class MainActivity extends ListActivity {
     @Override
 	public void onStart() {
 		super.onStart();
-		new GetTeaRoomsTask().execute();
+		
+		// TODO: pridat onResume
+		if(mTreeAdapter == null)
+			new GetTeaRoomsTask().execute();
 	}
     
     @Override
@@ -64,13 +68,21 @@ public class MainActivity extends ListActivity {
 	    case R.id.troom_list_menu_refresh:
 	    	new GetTeaRoomsTask().execute();
 	        return true;
+	    case R.id.troom_list_menu_map:
+	    	return true;
+	    case R.id.troom_list_menu_info:  // Otevreni obrazovky s informacema
+	    	Intent intent = new Intent();
+			intent.setClass(MainActivity.this, InfoActivity.class);
+			startActivity(intent);
+			
+	    	return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
 	}
     
     private void showLoadingProgressDialog() {
-		mProgressDialog = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+		mProgressDialog = ProgressDialog.show(this, "", "Nacitam, strpeni prosim...", true);
 	}
 
 	private void dismissProgressDialog() {
@@ -93,13 +105,8 @@ public class MainActivity extends ListActivity {
 		// iterace skrze natazene cajovny a buildovani modelu pro view
 		for (Tearoom tearoom : tearoomList) {
 			Map<String, String> tearoomInfo = new HashMap<String, String>();
-			tearoomInfo.put("name", tearoom.getName());
-			
-			if(Tea.isOpened(tearoom.getOpen_hours()))
-				tearoomInfo.put("opened", "Otevreno");
-			else
-				tearoomInfo.put("opened", "Zavreno");
-			
+			tearoomInfo.put("name", tearoom.getName());			
+			tearoomInfo.put("opened", Tea.getOpenedStatus(tearoom.getOpen_hours()));
 			
 			tearooms.add(tearoomInfo);
 		}

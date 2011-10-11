@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:padding="5dip">
+
+	<TextView 
+		android:text="@string/app_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+	/>
+	<TextView 
+		android:text="@string/info"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+	/>
+	<TextView
+		android:text="@string/author"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="10dip"
+		android:autoLink="all"
+	/>
+	<TextView 
+		android:text="@string/website"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="10dip"
+		android:autoLink="web"
+	/>
+	<TextView
+		android:text="@string/source"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="10dip"
+		android:autoLink="web"
+	/>
+</LinearLayout>
