@@ -13,8 +13,7 @@
     		android:layout_height="fill_parent"
     		android:gravity="center_horizontal"
     		android:textSize="23sp"
-    		android:textStyle="bold"
-    		android:textColor="#2222ee"/>
+    		android:textStyle="bold"/>
     </LinearLayout>
 
 	<LinearLayout

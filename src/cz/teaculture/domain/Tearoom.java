@@ -1,5 +1,6 @@
 package cz.teaculture.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -10,7 +11,9 @@ import java.util.List;
  * @author vbalak
  *
  */
-public class Tearoom {
+public class Tearoom implements Serializable {
+	private static final long serialVersionUID = 8042671639369119413L;
+	
 	private String address;
     private Date changed_at;
     private String city;

@@ -49,23 +49,23 @@ public class Tea {
 		// TODO: je to koser podminka?
 		if(openingTimes.size() == 7){
 			Calendar cal = Calendar.getInstance();
-			int day = cal.get(Calendar.DAY_OF_WEEK) - 1;
+			int day = cal.get(Calendar.DAY_OF_WEEK) - 1;  // SUNDAY = 1, SATURDAY = 7
 			
 			Short open = openingTimes.get(day).get(0);
 			Short close = openingTimes.get(day).get(1);
 			
-			int hour = (cal.get(Calendar.HOUR_OF_DAY) * 60) + cal.get(Calendar.MINUTE);
+			int currentMinute = (cal.get(Calendar.HOUR_OF_DAY) * 60) + cal.get(Calendar.MINUTE);
 			
 			// pokud je otevreno, mrknem, jak dlouho jeste bude
-			if(hour >= open && hour <= close){
-				int howLong = close - hour;  // doba do zaviracky v minutach
-				if(howLong < 60)
+			if(currentMinute >= open && currentMinute <= close){
+				int howLong = close - currentMinute;  // doba do zaviracky v minutach
+				if(howLong < 120 && howLong > 0)
 					result = "Otevreno jeste " + howLong + " minut.";
 				else
 					result = "Otevreno.";
 			}else{ // pokud je zavreno, tak to stejne :-)
-				int howLong = hour - open;  // doba do otviracky v minutach
-				if(howLong < 60)
+				int howLong = open - currentMinute;  // doba do otviracky v minutach
+				if(howLong < 120 && howLong > 0)
 					result = "Zavreno jeste " + howLong + " minut.";
 				else
 					result = "Zavreno.";

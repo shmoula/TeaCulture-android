@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 /**
  * Aktivita infoobrazovky
- * TODO: Udelat jako fragment
  * @author vbalak
  *
  */
