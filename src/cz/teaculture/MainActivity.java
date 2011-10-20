@@ -184,6 +184,7 @@ public class MainActivity extends ListActivity {
 	/**
 	 * Otevre dialog s vyberem navigace
 	 * TODO: zprovoznit vyber - nejaky intent navigateTo
+	 * TODO: vytvorit vlastni helper - volano z TearoomActivity
 	 * @param tearoomId
 	 */
 	private void openNavigation(String tearoomId, String mLatitude, String mLongitude) {
@@ -264,6 +265,7 @@ public class MainActivity extends ListActivity {
 			tearoomInfo.put("name", tearoom.getName());
 			tearoomInfo.put("lat", Double.toString(tearoom.getLat()));
 			tearoomInfo.put("lng", Double.toString(tearoom.getLng()));
+			tearoomInfo.put("city", tearoom.getCity());
 			tearoomInfo.put("opened", Tea.getOpenedStatus(tearoom.getOpen_hours()));
 			
 			tearooms.add(tearoomInfo);
@@ -272,7 +274,8 @@ public class MainActivity extends ListActivity {
 		// listAdapter pro seznam
 		mTreeAdapter = new SimpleAdapter(this, tearooms,
 				R.layout.troom_list_item,
-				new String[] { "name", "opened" }, new int[] { R.id.name, R.id.opened });
+				new String[] { "name", "opened", "city" }, new int[] { R.id.name, R.id.opened, R.id.city });
+		
 		setListAdapter(mTreeAdapter);
 	}
     
