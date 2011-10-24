@@ -24,6 +24,12 @@
             android:layout_weight="1"
     	/>
     	
+    	<TextView android:id="@+id/distance"
+			android:layout_width="wrap_content"
+        	android:layout_height="fill_parent"
+            android:layout_weight="1"
+    	/>
+    	
 		<TextView android:id="@+id/opened"
 			android:layout_width="wrap_content"
         	android:layout_height="fill_parent"

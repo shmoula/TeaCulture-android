@@ -21,6 +21,7 @@ public class Tearoom implements Serializable {
     private Double lat;
     private Double lng;
     private String name;
+    private boolean wifi;
     private List<List<Short>> open_hours;
 	
     
@@ -65,6 +66,12 @@ public class Tearoom implements Serializable {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public boolean isWifi() {
+		return wifi;
+	}
+	public void setWifi(boolean wifi) {
+		this.wifi = wifi;
 	}
 	/**
 	 * Oteviraci doba podniku v minutach

@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import cz.teaculture.domain.GeoPoint;
 import cz.teaculture.domain.Tearoom;
 import cz.teaculture.util.Stuff;
 import cz.teaculture.util.Tea;
@@ -19,9 +20,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +54,10 @@ public class MainActivity extends ListActivity {
     private SharedPreferences mPrefs;
     private TearoomOpenHelper mOpenHelper;
     
+    private Location mMyLocation;
+    private LocationManager mLocationManager;
+    private LocationListener mLocationListener;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +81,13 @@ public class MainActivity extends ListActivity {
 	public void onStart() {
 		super.onStart();
 		
+		// pokusim se zafixovat pozici
+		mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		setNewLocation(getLastKnownLocation(false), false);  // nastavim posledni znamou prozatim
+		mLocationListener = new MyLocationListener();
+		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
+		
+		// natahnu data do view
 		if(isFirstRun()){
 			new GetTeaRoomsTask().execute();
 			setRunnedFlag();
@@ -79,6 +95,37 @@ public class MainActivity extends ListActivity {
 			loadFromDatabase();
 		}
 	}
+    
+    /**
+     * Helper pro nastaveni pozice
+     * @param debug - pokud se debuguje, vygeneruje lokaci
+     * @return
+     */
+    private Location getLastKnownLocation(boolean debug) {
+    	Location result = null;
+    	
+    	if(debug){
+    		result = new Location("debug");
+    		result.setLatitude(49);
+    		result.setLongitude(16);
+    	} else {
+    		result = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+    	}
+
+    	return result;
+    }
+    
+    /**
+     * Nastavi novou lokaci a volitelne odstrani listener a prestane updatovat polohu
+     * @param disableUpdates
+     * @param location
+     */
+    private void setNewLocation(Location location, boolean disableUpdates) {
+    	mMyLocation = location;
+    	
+    	if(disableUpdates)
+    		mLocationManager.removeUpdates(mLocationListener);
+    }
     
     /**
      * Priznak, zda byla aplikace jiz spustena
@@ -268,13 +315,18 @@ public class MainActivity extends ListActivity {
 			tearoomInfo.put("city", tearoom.getCity());
 			tearoomInfo.put("opened", Tea.getOpenedStatus(tearoom.getOpen_hours()));
 			
+			// odhad vzdalenosti
+			GeoPoint geoPoint = new GeoPoint(tearoom.getLat(), tearoom.getLng());
+			float distance = geoPoint.distanceTo(mMyLocation);
+			tearoomInfo.put("distance", Float.toString(distance) + "m");
+			
 			tearooms.add(tearoomInfo);
 		}
 
 		// listAdapter pro seznam
 		mTreeAdapter = new SimpleAdapter(this, tearooms,
 				R.layout.troom_list_item,
-				new String[] { "name", "opened", "city" }, new int[] { R.id.name, R.id.opened, R.id.city });
+				new String[] { "name", "opened", "city", "distance" }, new int[] { R.id.name, R.id.opened, R.id.city , R.id.distance});
 		
 		setListAdapter(mTreeAdapter);
 	}
@@ -323,5 +375,22 @@ public class MainActivity extends ListActivity {
 			}
 		}
 	}
+    
+    /**
+     * Implementace LocationListeneru - pokusi se zjistit pozici dle BTS a po uspechu sam zdechne
+     * @author vbalak
+     *
+     */
+    private class MyLocationListener implements LocationListener {
+        public void onLocationChanged(Location location) {
+        	setNewLocation(location, true);
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        public void onProviderEnabled(String provider) {}
+
+        public void onProviderDisabled(String provider) {}
+      };
 }
 
