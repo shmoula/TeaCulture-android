@@ -3,15 +3,13 @@ package cz.teaculture.util;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Pomocne rutiny pro praci s SQLite databazi
  * TODO: udelat singleton, kde bude stale natazena DB, aby bylo mozne si odpustit queries
+ * TODO: vypada to, ze to tu neni prechodne, takze zrusit blob a udelat normalni databazi
  * @author vbalak
  *
  */
@@ -25,12 +23,9 @@ public class TearoomOpenHelper extends SQLiteOpenHelper {
     
     
     private static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME + " (" + FIELD_LIST + " DATA);";
-    
-    private Context mContext;
 
     public TearoomOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        mContext = context;
     }
 
     @Override
@@ -48,6 +43,8 @@ public class TearoomOpenHelper extends SQLiteOpenHelper {
     	ContentValues dataToInsert = new ContentValues();                          
     	dataToInsert.put(FIELD_LIST, bArray);
     	db.insert(TABLE_NAME, null, dataToInsert);
+    	
+    	db.close();
     }
     
     /**
@@ -66,6 +63,8 @@ public class TearoomOpenHelper extends SQLiteOpenHelper {
     	
     		cursor.close();
     	}
+    	
+    	db.close();
     	
     	return bArray;
     }

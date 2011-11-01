@@ -3,6 +3,7 @@ package cz.teaculture;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import cz.teaculture.domain.GeoPoint;
 import cz.teaculture.domain.Tearoom;
-import cz.teaculture.util.SeparatedListAdapter;
+import cz.teaculture.util.CityComparator;
 import cz.teaculture.util.Stuff;
 import cz.teaculture.util.Tea;
 import cz.teaculture.util.TearoomOpenHelper;
@@ -33,7 +34,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.ArrayAdapter;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -50,7 +52,7 @@ public class MainActivity extends ListActivity {
     private static final int SHOW_TEAROOM_DETAILS_ID = 0;
     private static final int NAVIGATE_TO_ID = 1;
     
-    private static final boolean DEBUGING_ENABLED = true;
+    private static final boolean DEBUGING_ENABLED = false;
     
     private ProgressDialog mProgressDialog;
     private SimpleAdapter mTearoomAdapter;
@@ -60,6 +62,8 @@ public class MainActivity extends ListActivity {
     private Location mMyLocation;
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
+    
+    private TextView mTvHeader;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,10 @@ public class MainActivity extends ListActivity {
 		
 		// Pridani kontextoveho menu do seznamu
 		registerForContextMenu(getListView());
+		
+		// Pridani hlavicky a paticky do seznamu
+		getListView().addFooterView(createFooterView());
+		getListView().addHeaderView(createHeaderView());
     }
     
     @Override
@@ -98,6 +106,62 @@ public class MainActivity extends ListActivity {
 			loadFromDatabase();
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		mLocationManager.removeUpdates(mLocationListener);
+	    mOpenHelper.close();
+	      
+		super.onPause();
+	}
+
+	/**
+     * Vytvori view se zapatim, ktere se prida na konec seznamu
+     * @return
+     */
+	private View createFooterView() {
+		Button footer = new Button(this);
+		
+		footer.setText("Refresh");
+		footer.setClickable(true);
+		
+		footer.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				new GetTeaRoomsTask().execute();
+			}
+		});
+
+		return footer;
+	}
+	
+	/**
+	 * Vytvori view se zahlavim seznamu (ne nadpis, ale to informacni pole)
+	 * @return
+	 */
+	private View createHeaderView(){
+		View header = getLayoutInflater().inflate(R.layout.troom_list_header, null);
+		
+		mTvHeader = (TextView) header.findViewById(R.id.troom_list_header_title);
+		updateHeaderLine();
+		header.setEnabled(false);
+		
+		return header;
+	}
+	
+	/**
+     * Update textu v hlavicce seznamu
+     * @return
+     */
+	private void updateHeaderLine() {
+	
+		String accuracy = "Hledam polohu...";
+		try{
+			accuracy = "Presnost polohy je cca " + Float.toString(mMyLocation.getAccuracy()) + "m";
+		} catch (NullPointerException e){}
+		
+		mTvHeader.setText(accuracy);
+	}
     
     /**
      * Helper pro nastaveni pozice
@@ -111,6 +175,7 @@ public class MainActivity extends ListActivity {
     		result = new Location("debug");
     		result.setLatitude(49);
     		result.setLongitude(16);
+    		result.setAccuracy(500);
     	} else {
     		result = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
     	}
@@ -125,6 +190,8 @@ public class MainActivity extends ListActivity {
      */
     private void setNewLocation(Location location, boolean disableUpdates) {
     	mMyLocation = location;
+    	
+    	updateHeaderLine();
     	
     	if(disableUpdates)
     		mLocationManager.removeUpdates(mLocationListener);
@@ -189,6 +256,11 @@ public class MainActivity extends ListActivity {
 	public boolean onContextItemSelected(MenuItem item) {
 		// Vytazeni id cajovny, nad kterou bylo vyvolano kontextove menu
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		
+		// Osetreni uzivatelova kliknuti na header nebo footer
+		if(info.position == 0 || info.position > mTearoomAdapter.getCount())
+			return super.onContextItemSelected(item);
+		
 		String tearoomId = getTearoomParameter(info.position, "id");
 		
 		switch(item.getItemId()){
@@ -213,6 +285,10 @@ public class MainActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
+		
+		// Osetreni uzivatelova kliknuti na header nebo footer
+		if(position == 0 || position > mTearoomAdapter.getCount())
+			return;
 		
 		String tearoomId = getTearoomParameter(position, "id");
 		openTearoomDetails(tearoomId);
@@ -250,6 +326,8 @@ public class MainActivity extends ListActivity {
 	 * @return
 	 */
 	private String getTearoomParameter(int position, String key){
+		position -= 1; // polozky jsou o jednu posunute diky zahlavi
+		
 		Object o = mTearoomAdapter.getItem(position);
 		if(o instanceof Map){
 			Map<String, String> tearoomInfo = (Map<String, String>) o;
@@ -306,6 +384,10 @@ public class MainActivity extends ListActivity {
 			return;
 		}
 		
+		// Setrideni seznamu podle jmena mesta
+		// TODO: setridit prvotne podle vzdalenosti a nacpat do custom SeparatedListAdapter a setridit podruhe podle mesta
+		Collections.sort(tearoomList, new CityComparator());
+		
 		List<Map<String, String>> tearooms = new ArrayList<Map<String, String>>();
 		
 		// iterace skrze natazene cajovny a buildovani modelu pro view
@@ -330,7 +412,7 @@ public class MainActivity extends ListActivity {
 		mTearoomAdapter = new SimpleAdapter(this, tearooms,
 				R.layout.troom_list_item,
 				new String[] { "name", "opened", "city", "distance" }, new int[] { R.id.name, R.id.opened, R.id.city , R.id.distance});
-		
+
 		setListAdapter(mTearoomAdapter);
 	}
     
