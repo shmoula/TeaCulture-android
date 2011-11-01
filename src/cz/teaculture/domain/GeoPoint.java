@@ -29,6 +29,9 @@ public class GeoPoint {
 	 * @return
 	 */
 	public float distanceTo(GeoPoint end) {
+		if(end == null)
+			return Float.MAX_VALUE;
+		
         float[] results = new float[2];
         
         android.location.Location.distanceBetween(latitude, longitude, end.getLatitude(), end.getLongitude(), results);
@@ -42,6 +45,9 @@ public class GeoPoint {
 	 * @return
 	 */
 	public float distanceTo(Location location) {
+		if(location == null)
+			return Float.MAX_VALUE;
+		
 		GeoPoint geoPoint = new GeoPoint(location);
 		
 		return distanceTo(geoPoint);

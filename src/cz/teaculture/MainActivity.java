@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import cz.teaculture.domain.GeoPoint;
 import cz.teaculture.domain.Tearoom;
+import cz.teaculture.util.SeparatedListAdapter;
 import cz.teaculture.util.Stuff;
 import cz.teaculture.util.Tea;
 import cz.teaculture.util.TearoomOpenHelper;
@@ -26,13 +27,13 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -49,8 +50,10 @@ public class MainActivity extends ListActivity {
     private static final int SHOW_TEAROOM_DETAILS_ID = 0;
     private static final int NAVIGATE_TO_ID = 1;
     
+    private static final boolean DEBUGING_ENABLED = true;
+    
     private ProgressDialog mProgressDialog;
-    private SimpleAdapter mTreeAdapter;
+    private SimpleAdapter mTearoomAdapter;
     private SharedPreferences mPrefs;
     private TearoomOpenHelper mOpenHelper;
     
@@ -83,7 +86,7 @@ public class MainActivity extends ListActivity {
 		
 		// pokusim se zafixovat pozici
 		mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		setNewLocation(getLastKnownLocation(false), false);  // nastavim posledni znamou prozatim
+		setNewLocation(getLastKnownLocation(), false);  // nastavim posledni znamou prozatim
 		mLocationListener = new MyLocationListener();
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
 		
@@ -101,10 +104,10 @@ public class MainActivity extends ListActivity {
      * @param debug - pokud se debuguje, vygeneruje lokaci
      * @return
      */
-    private Location getLastKnownLocation(boolean debug) {
+    private Location getLastKnownLocation() {
     	Location result = null;
     	
-    	if(debug){
+    	if(DEBUGING_ENABLED){
     		result = new Location("debug");
     		result.setLatitude(49);
     		result.setLongitude(16);
@@ -247,7 +250,7 @@ public class MainActivity extends ListActivity {
 	 * @return
 	 */
 	private String getTearoomParameter(int position, String key){
-		Object o = mTreeAdapter.getItem(position);
+		Object o = mTearoomAdapter.getItem(position);
 		if(o instanceof Map){
 			Map<String, String> tearoomInfo = (Map<String, String>) o;
 			return tearoomInfo.get(key);
@@ -324,11 +327,11 @@ public class MainActivity extends ListActivity {
 		}
 
 		// listAdapter pro seznam
-		mTreeAdapter = new SimpleAdapter(this, tearooms,
+		mTearoomAdapter = new SimpleAdapter(this, tearooms,
 				R.layout.troom_list_item,
 				new String[] { "name", "opened", "city", "distance" }, new int[] { R.id.name, R.id.opened, R.id.city , R.id.distance});
 		
-		setListAdapter(mTreeAdapter);
+		setListAdapter(mTearoomAdapter);
 	}
     
     private class GetTeaRoomsTask extends AsyncTask<Void, Void, List<Tearoom>> {

@@ -78,7 +78,7 @@
 					<deleteConflictingFiles>true</deleteConflictingFiles>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					<sign>
-						<debug>false</debug>
+						<debug>true</debug>
 					</sign>
 				</configuration>
 				<extensions>true</extensions>
