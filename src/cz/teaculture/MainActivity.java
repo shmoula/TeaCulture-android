@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import cz.teaculture.domain.GeoPoint;
 import cz.teaculture.domain.Tearoom;
 import cz.teaculture.util.CityComparator;
+import cz.teaculture.util.Settings;
 import cz.teaculture.util.Stuff;
 import cz.teaculture.util.Tea;
 import cz.teaculture.util.TearoomOpenHelper;
@@ -21,7 +22,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -56,8 +56,8 @@ public class MainActivity extends ListActivity {
     
     private ProgressDialog mProgressDialog;
     private SimpleAdapter mTearoomAdapter;
-    private SharedPreferences mPrefs;
     private TearoomOpenHelper mOpenHelper;
+    private Settings mSettings;
     
     private Location mMyLocation;
     private LocationManager mLocationManager;
@@ -71,11 +71,10 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.troom_list);
         
         // Nacteni preferences
-        Context mContext = this.getApplicationContext();
-        mPrefs = mContext.getSharedPreferences("preferences", 0);
+        mSettings = new Settings(getApplicationContext());
         
         // Inicializace napojeni na SQLite
-        mOpenHelper = new TearoomOpenHelper(mContext);
+        mOpenHelper = new TearoomOpenHelper(getApplicationContext());
         
         TextView tv = (TextView) findViewById(R.id.infobar);
 		tv.setText("Teaculture");
@@ -99,9 +98,9 @@ public class MainActivity extends ListActivity {
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
 		
 		// natahnu data do view
-		if(isFirstRun()){
+		if(mSettings.isFirstRun()){
 			new GetTeaRoomsTask().execute();
-			setRunnedFlag();
+			mSettings.setRunnedFlag();
 		} else {
 			loadFromDatabase();
 		}
@@ -157,7 +156,8 @@ public class MainActivity extends ListActivity {
 	
 		String accuracy = "Hledam polohu...";
 		try{
-			accuracy = "Presnost polohy je cca " + Float.toString(mMyLocation.getAccuracy()) + "m";
+			accuracy = "Presnost polohy " + Float.toString(mMyLocation.getAccuracy()) + " m";
+			accuracy += ", filtr " + mSettings.getSavedDistanceStr();
 		} catch (NullPointerException e){}
 		
 		mTvHeader.setText(accuracy);
@@ -195,23 +195,6 @@ public class MainActivity extends ListActivity {
     	
     	if(disableUpdates)
     		mLocationManager.removeUpdates(mLocationListener);
-    }
-    
-    /**
-     * Priznak, zda byla aplikace jiz spustena
-     * @return
-     */
-    private boolean isFirstRun(){
-    	return mPrefs.getBoolean("firstRun", true);
-    }
-    
-    /**
-     * Nastavi priznak, ze jiz bylo spusteno
-     */
-    private void setRunnedFlag() {
-        SharedPreferences.Editor edit = mPrefs.edit();
-        edit.putBoolean("firstRun", false);
-        edit.commit();
     }
     
     /**
@@ -348,15 +331,21 @@ public class MainActivity extends ListActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent();
+		
 	    switch (item.getItemId()) {
-	    case R.id.troom_list_menu_refresh:
+	    case R.id.troom_list_menu_refresh:  // Znovunacteni seznamu z webu
 	    	new GetTeaRoomsTask().execute();
 	        return true;
 	    case R.id.troom_list_menu_map:
 	    	return true;
 	    case R.id.troom_list_menu_info:  // Otevreni obrazovky s informacema
-	    	Intent intent = new Intent();
 			intent.setClass(MainActivity.this, InfoActivity.class);
+			startActivity(intent);
+			
+	    	return true;
+	    case R.id.troom_list_menu_settings:  // Otevrei nastaveni
+			intent.setClass(MainActivity.this, SettingsActivity.class);
 			startActivity(intent);
 			
 	    	return true;
@@ -390,20 +379,26 @@ public class MainActivity extends ListActivity {
 		
 		List<Map<String, String>> tearooms = new ArrayList<Map<String, String>>();
 		
+		// hodnota - vzdalenost, do ktere se budou zobrazovat cajovny
+		int distanceFilter = mSettings.getSavedDistanceVal();
+		
 		// iterace skrze natazene cajovny a buildovani modelu pro view
 		for (Tearoom tearoom : tearoomList) {
 			Map<String, String> tearoomInfo = new HashMap<String, String>();
+			
+			// odhad vzdalenosti
+			GeoPoint geoPoint = new GeoPoint(tearoom.getLat(), tearoom.getLng());
+			float distance = geoPoint.distanceTo(mMyLocation);
+			if(distance > distanceFilter) continue; // filtrovani vzdalenych cajoven
+			tearoomInfo.put("distance", Float.toString(distance) + "m");
+			
+			// vlozeni jednotlivych hodnot pro adapter
 			tearoomInfo.put("id", Long.toString(tearoom.getId()));
 			tearoomInfo.put("name", tearoom.getName());
 			tearoomInfo.put("lat", Double.toString(tearoom.getLat()));
 			tearoomInfo.put("lng", Double.toString(tearoom.getLng()));
 			tearoomInfo.put("city", tearoom.getCity());
 			tearoomInfo.put("opened", Tea.getOpenedStatus(tearoom.getOpen_hours()));
-			
-			// odhad vzdalenosti
-			GeoPoint geoPoint = new GeoPoint(tearoom.getLat(), tearoom.getLng());
-			float distance = geoPoint.distanceTo(mMyLocation);
-			tearoomInfo.put("distance", Float.toString(distance) + "m");
 			
 			tearooms.add(tearoomInfo);
 		}
