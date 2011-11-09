@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import android.location.Location;
+
 /**
  * Bean s informacemi o cajovne - rest template jej nacpe do pole
  * @author vbalak
@@ -73,6 +75,18 @@ public class Tearoom implements Serializable {
 	public void setWifi(boolean wifi) {
 		this.wifi = wifi;
 	}
+	
+	public Location getLocation() {
+		Location result = null;
+    	
+   		result = new Location("tearoom_exact");
+   		result.setLatitude(lat);
+   		result.setLongitude(lng);
+   		result.setAccuracy(0);
+   		
+   		return result;
+	}
+	
 	/**
 	 * Oteviraci doba podniku v minutach
 	 * @return output/60 = hodina otevreni/zavreni

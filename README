@@ -3,3 +3,10 @@ TeaCulture - android
 Zdrojaky androidiho klienta pro web TeaCulture.cz.
 
 Zatim je to jenom ve fazi Proof of concept a nic moc to neumi, ale dockejte casu, jako husy klasu!
+
+
+Headery pro jednotliva mesta poustim z hlavy:
+http://jsharkey.org/blog/2008/08/18/separating-lists-with-headers-in-android-09/
+http://stackoverflow.com/questions/7522454/android-separatedlistadapter-how-to-get-accurate-item-position-on-onclick
+http://androidseverywhere.info/JAAB/?p=6
+http://eshyu.wordpress.com/2010/08/15/cursoradapter-with-alphabet-indexed-section-headers/

@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import cz.teaculture.domain.GeoPoint;
 import cz.teaculture.domain.Tearoom;
-import cz.teaculture.util.CityComparator;
+import cz.teaculture.util.LocationComparator;
 import cz.teaculture.util.Settings;
 import cz.teaculture.util.Stuff;
 import cz.teaculture.util.Tea;
@@ -49,10 +49,12 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 public class MainActivity extends ListActivity {
     private static String TAG = "teacultureMain";
     
+    private static final String URL_ALL_TEAROOMS = "http://www.teaculture.cz/api/tearooms";
+    
     private static final int SHOW_TEAROOM_DETAILS_ID = 0;
     private static final int NAVIGATE_TO_ID = 1;
     
-    private static final boolean DEBUGING_ENABLED = false;
+    private static final boolean DEBUGING_ENABLED = true;
     
     private ProgressDialog mProgressDialog;
     private SimpleAdapter mTearoomAdapter;
@@ -173,8 +175,8 @@ public class MainActivity extends ListActivity {
     	
     	if(DEBUGING_ENABLED){
     		result = new Location("debug");
-    		result.setLatitude(49);
-    		result.setLongitude(16);
+    		result.setLatitude(49.8);
+    		result.setLongitude(18.2);
     		result.setAccuracy(500);
     	} else {
     		result = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -373,9 +375,8 @@ public class MainActivity extends ListActivity {
 			return;
 		}
 		
-		// Setrideni seznamu podle jmena mesta
-		// TODO: setridit prvotne podle vzdalenosti a nacpat do custom SeparatedListAdapter a setridit podruhe podle mesta
-		Collections.sort(tearoomList, new CityComparator());
+		// Setrideni seznamu podle vzdalenosti
+		Collections.sort(tearoomList, new LocationComparator(mMyLocation));
 		
 		List<Map<String, String>> tearooms = new ArrayList<Map<String, String>>();
 		
@@ -390,7 +391,6 @@ public class MainActivity extends ListActivity {
 			GeoPoint geoPoint = new GeoPoint(tearoom.getLat(), tearoom.getLng());
 			float distance = geoPoint.distanceTo(mMyLocation);
 			if(distance > distanceFilter) continue; // filtrovani vzdalenych cajoven
-			tearoomInfo.put("distance", Float.toString(distance) + "m");
 			
 			// vlozeni jednotlivych hodnot pro adapter
 			tearoomInfo.put("id", Long.toString(tearoom.getId()));
@@ -406,7 +406,7 @@ public class MainActivity extends ListActivity {
 		// listAdapter pro seznam
 		mTearoomAdapter = new SimpleAdapter(this, tearooms,
 				R.layout.troom_list_item,
-				new String[] { "name", "opened", "city", "distance" }, new int[] { R.id.name, R.id.opened, R.id.city , R.id.distance});
+				new String[] { "name", "opened", "city" }, new int[] { R.id.name, R.id.opened, R.id.city });
 
 		setListAdapter(mTearoomAdapter);
 	}
@@ -427,7 +427,7 @@ public class MainActivity extends ListActivity {
 				RestTemplate restTemplate = new RestTemplate();
 				restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
-				final String url = "http://www.teaculture.cz/api/tearooms";
+				final String url = URL_ALL_TEAROOMS;
 				Tearoom[] result = restTemplate.getForObject(url, Tearoom[].class);
 
 				return Arrays.asList(result);
