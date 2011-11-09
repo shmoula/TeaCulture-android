@@ -22,14 +22,17 @@ public class LocationComparator implements Comparator <Tearoom> {
 
 	@Override
 	public int compare(Tearoom o1, Tearoom o2) {
-		if(o1 == null)
+		Location l1 = o1.getLocation();
+		Location l2 = o2.getLocation();
+		
+		if(l1 == null)
 			return 1;
-		if(o2 == null)
+		if(l2 == null)
 			return -1;
-		if(o2 == null & o1 == null)
+		if(l2 == null & l1 == null)
 			return 0;
 		
-		return Float.compare(myLocation.distanceTo(o1.getLocation()), myLocation.distanceTo(o2.getLocation()));
+		return Float.compare(myLocation.distanceTo(l1), myLocation.distanceTo(l2));
 	}
 
 }

@@ -77,9 +77,10 @@ public class Tearoom implements Serializable {
 	}
 	
 	public Location getLocation() {
-		Location result = null;
-    	
-   		result = new Location("tearoom_exact");
+		if(lat == null || lng == null)
+			return null;
+		
+		Location result = new Location("tearoom_exact");
    		result.setLatitude(lat);
    		result.setLongitude(lng);
    		result.setAccuracy(0);

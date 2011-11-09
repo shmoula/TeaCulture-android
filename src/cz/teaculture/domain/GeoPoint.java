@@ -13,7 +13,10 @@ public class GeoPoint {
 	private double longitude;
 	
 	
-	public GeoPoint(double latitude, double longitude) {
+	public GeoPoint(Double latitude, Double longitude) {
+		if(latitude == null || longitude == null)
+			return;
+			
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}

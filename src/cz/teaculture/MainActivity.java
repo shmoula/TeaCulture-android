@@ -1,6 +1,5 @@
 package cz.teaculture;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +16,7 @@ import cz.teaculture.util.LocationComparator;
 import cz.teaculture.util.Settings;
 import cz.teaculture.util.Stuff;
 import cz.teaculture.util.Tea;
-import cz.teaculture.util.TearoomOpenHelper;
+import cz.teaculture.util.TeaDatabaseHelper;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -54,11 +53,11 @@ public class MainActivity extends ListActivity {
     private static final int SHOW_TEAROOM_DETAILS_ID = 0;
     private static final int NAVIGATE_TO_ID = 1;
     
-    private static final boolean DEBUGING_ENABLED = true;
+    private static final boolean DEBUGING_ENABLED = false;
     
     private ProgressDialog mProgressDialog;
     private SimpleAdapter mTearoomAdapter;
-    private TearoomOpenHelper mOpenHelper;
+    private TeaDatabaseHelper mTeaDatabaseHelper;
     private Settings mSettings;
     
     private Location mMyLocation;
@@ -76,10 +75,7 @@ public class MainActivity extends ListActivity {
         mSettings = new Settings(getApplicationContext());
         
         // Inicializace napojeni na SQLite
-        mOpenHelper = new TearoomOpenHelper(getApplicationContext());
-        
-        TextView tv = (TextView) findViewById(R.id.infobar);
-		tv.setText("Teaculture");
+        mTeaDatabaseHelper = new TeaDatabaseHelper(getApplicationContext());
 		
 		// Pridani kontextoveho menu do seznamu
 		registerForContextMenu(getListView());
@@ -111,7 +107,7 @@ public class MainActivity extends ListActivity {
 	@Override
 	protected void onPause() {
 		mLocationManager.removeUpdates(mLocationListener);
-	    mOpenHelper.close();
+	    mTeaDatabaseHelper.close();
 	      
 		super.onPause();
 	}
@@ -202,28 +198,22 @@ public class MainActivity extends ListActivity {
     /**
      * Ulozi do databaze z webu nacteny seznam cajoven
      * @param tearoomList
-     * @throws IOException
      */
-    private void saveToDatabase(List<Tearoom> tearoomList) throws IOException{
-    	byte[] tearoomByteArray = Stuff.getObjectAsByteArray(tearoomList);
-    	mOpenHelper.saveNewList(tearoomByteArray);
+    private void saveToDatabase(List<Tearoom> tearoomList) {
+    	mTeaDatabaseHelper.saveTearooms(tearoomList);
     }
     
     /**
      * Nacte z SQLite databaze jiz ulozene cajovny
      */
     private void loadFromDatabase(){
-    	byte[] bArray = mOpenHelper.getSavedList();
+    	List<Tearoom> tearoomList = mTeaDatabaseHelper.loadTearooms();
     	
-    	try {
-			List<Tearoom> tearoomList = Stuff.setObjectFromByteArray(bArray, ArrayList.class);
-			refreshTreeList(tearoomList);
-		} catch (IOException e) {
-			e.printStackTrace();
-			
-			// V pripade neuspechu se pokusim nacist cajky z webu
-			new GetTeaRoomsTask().execute();
-		}
+    	// V pripade neuspechu se pokusim nacist cajky z webu
+    	if (tearoomList == null || tearoomList.size() == 0)
+    		new GetTeaRoomsTask().execute();
+    	else
+    		refreshTreeList(tearoomList);
     }
     
     
@@ -448,11 +438,7 @@ public class MainActivity extends ListActivity {
 			refreshTreeList(result);
 			
 			// Pokus o zazalohovani nacteneho seznamu cajoven, aby se priste nemuselo nacitat
-			try {
-				saveToDatabase(result);
-			} catch (IOException e) {
-				Stuff.logException(e, TAG);
-			}
+			saveToDatabase(result);
 		}
 	}
     

@@ -1,12 +1,9 @@
 package cz.teaculture;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import cz.teaculture.domain.Tearoom;
-import cz.teaculture.util.Stuff;
-import cz.teaculture.util.TearoomOpenHelper;
+import cz.teaculture.util.TeaDatabaseHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,7 +21,7 @@ import android.widget.Toast;
  *
  */
 public class TearoomActivity extends Activity {
-	private TearoomOpenHelper mOpenHelper;
+	private TeaDatabaseHelper mTeaDatabaseHelper;
 	private Tearoom mTearoom;
 	
 	@Override
@@ -33,12 +30,12 @@ public class TearoomActivity extends Activity {
 		setContentView(R.layout.tearoom_details);
 		
 		// Inicializace napojeni na SQLite
-        mOpenHelper = new TearoomOpenHelper(getApplicationContext());
+        mTeaDatabaseHelper = new TeaDatabaseHelper(getApplicationContext());
 		
 		// Vytazeni identifikatoru z bundlu a dohledani odpovidajiciho teaRoomu
 		Bundle bundle = this.getIntent().getExtras();
 		String tearoomId = bundle.getString("tearoomId");
-		mTearoom = getTearoomDetails(Long.parseLong(tearoomId));
+		mTearoom = mTeaDatabaseHelper.loadTearoom(Long.parseLong(tearoomId));
 	}
 	
 	@Override
@@ -51,6 +48,13 @@ public class TearoomActivity extends Activity {
 			Toast.makeText(getApplicationContext(), "Nastal problem pri nacitani detailu cajovny.", Toast.LENGTH_LONG).show();
 			finish();
 		}
+	}
+	
+	@Override
+	protected void onPause() {
+	    mTeaDatabaseHelper.close();
+	      
+		super.onPause();
 	}
 	
 	/**
@@ -95,33 +99,6 @@ public class TearoomActivity extends Activity {
 		Short evening = dayTime.get(1); 
 		
 		result += (morning/60) + ":" + String.format("%02d", morning%60) + " - " + (evening/60) + ":" + String.format("%02d", evening%60);
-		
-		return result;
-	}
-		
-	/**
-	 * Natahne z databaze pozadovany teaRoom
-	 * TODO: tearoomList by mohl existovat v singletonu ve formatu Map<id, Tearoom>
-	 * @param tearoomId
-	 * @return
-	 */
-	private Tearoom getTearoomDetails(long tearoomId) {
-		byte[] bArray = mOpenHelper.getSavedList();
-		Tearoom result = null;
-		
-		try {
-			@SuppressWarnings("unchecked")
-			List<Tearoom> tearoomList = Stuff.setObjectFromByteArray(bArray, ArrayList.class);
-			
-			for(Tearoom tearoom : tearoomList){
-				if(tearoomId == tearoom.getId()){
-					result = tearoom;
-					break;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		return result;
 	}
