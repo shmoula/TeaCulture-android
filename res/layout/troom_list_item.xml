@@ -9,8 +9,7 @@
         android:layout_height="0dip"
         android:layout_weight="1"
         
-        android:textSize="18sp"
-        android:textStyle="bold"
+        style="@style/troomlist_title"
     />
     
     <LinearLayout android:orientation="horizontal"
@@ -22,12 +21,16 @@
 			android:layout_width="wrap_content"
         	android:layout_height="fill_parent"
             android:layout_weight="1"
+            
+            style="@style/troomlist_item"
     	/>
     	
 		<TextView android:id="@+id/opened"
 			android:layout_width="wrap_content"
         	android:layout_height="fill_parent"
             android:layout_weight="1"
+            
+            style="@style/troomlist_item"
     	/>
 	</LinearLayout>
 	

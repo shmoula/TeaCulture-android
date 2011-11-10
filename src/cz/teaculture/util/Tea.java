@@ -3,6 +3,10 @@ package cz.teaculture.util;
 import java.util.Calendar;
 import java.util.List;
 
+import cz.teaculture.R;
+
+import android.content.Context;
+
 
 /**
  * Trida s pomocnymi rutinami
@@ -43,7 +47,7 @@ public class Tea {
 	 * @param openingTimes
 	 * @return
 	 */
-	public static String getOpenedStatus(List<List<Short>> openingTimes){
+	public static String getOpenedStatus(List<List<Short>> openingTimes, Context context){
 		String result = "";
 		
 		// TODO: je to koser podminka?
@@ -60,15 +64,15 @@ public class Tea {
 			if(currentMinute >= open && currentMinute <= close){
 				int howLong = close - currentMinute;  // doba do zaviracky v minutach
 				if(howLong < 120 && howLong > 0)
-					result = "Otevreno jeste " + howLong + " minut.";
+					result = context.getString(R.string.still_opened) + howLong + " minut";
 				else
-					result = "Otevreno.";
+					result = context.getString(R.string.opened);
 			}else{ // pokud je zavreno, tak to stejne :-)
 				int howLong = open - currentMinute;  // doba do otviracky v minutach
 				if(howLong < 120 && howLong > 0)
-					result = "Zavreno jeste " + howLong + " minut.";
+					result = context.getString(R.string.still_closed) + howLong + " minut.";
 				else
-					result = "Zavreno.";
+					result = context.getString(R.string.closed);
 			}
 		}
 		

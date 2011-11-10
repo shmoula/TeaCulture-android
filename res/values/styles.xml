@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="teaculture_theme" parent="android:Theme.NoTitleBar">
+	</style>
+ 
+	<style name="action_bar">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">@dimen/actionbar_height</item>
+		<item name="android:orientation">horizontal</item>
+		<item name="android:background">@drawable/actionbar_background</item>
+		<item name="android:gravity">center</item>
+	</style>
+
+	<style name="action_bar_icon_teaculture">
+		<item name="android:layout_width">@dimen/actionbar_height</item>
+		<item name="android:layout_height">@dimen/actionbar_height</item>
+		<item name="android:padding">4dip</item>
+		<item name="android:scaleType">center</item>
+		<item name="android:focusable">true</item>
+		<item name="android:src">@drawable/actionbar_teaculture</item>
+		<item name="android:background">@drawable/actionbar_button</item>
+	</style>
+	
+	<style name="action_bar_title">
+		<item name="android:id">@id/actionbar_title</item>
+		<item name="android:layout_width">0dip</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_weight">1</item>
+		<item name="android:paddingLeft">6dip</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:scrollHorizontally">true</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:lines">1</item>
+		<item name="android:textSize">20dip</item>
+		<item name="android:textColor">@color/just_white</item>
+		<item name="android:text">@string/app_name</item>
+	</style>
+	
+	<style name="action_bar_separator">
+		<item name="android:layout_width">@dimen/actionbar_separator_width</item>
+		<item name="android:layout_height">@dimen/actionbar_separator_height</item>
+		<item name="android:background">@drawable/actionbar_separator</item>
+	</style>
+	
+	<style name="action_bar_action">
+		<item name="android:layout_width">@dimen/actionbar_height</item>
+		<item name="android:layout_height">@dimen/actionbar_height</item>
+		<item name="android:padding">2dip</item>
+		<item name="android:scaleType">center</item>
+		<item name="android:focusable">true</item>
+		<item name="android:src">@drawable/actionbar_home</item>			<!-- Tohle je standardne pretizeny, ale ulehcuje to :-) -->
+		<item name="android:background">@drawable/actionbar_button</item>
+	</style>
+	
+
+
+	<style name="troomlist_empty">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/no_tearooms_around</item>
+        <item name="android:textColor">@color/just_black</item>
+	</style>
+	
+	<style name="troomlist_title">
+		<item name="android:paddingLeft">6dip</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:scrollHorizontally">true</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:lines">1</item>
+		<item name="android:textSize">20dip</item>
+		<item name="android:textColor">@color/just_black</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	
+	<style name="troomlist_item">
+		<item name="android:paddingLeft">12dip</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:scrollHorizontally">true</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:lines">1</item>
+		<item name="android:textColor">@color/just_black</item>
+	</style>
+	
+	
+	
+	<style name="info_text">
+		<item name="android:textColorLink">@color/link</item>
+		<item name="android:linksClickable">true</item>
+		<item name="android:focusable">true</item>
+		<item name="android:clickable">true</item>
+					
+		<item name="android:layout_marginLeft">10dip</item>
+		<item name="android:layout_marginRight">10dip</item>
+		<item name="android:layout_marginBottom">5dip</item>
+		<item name="android:layout_alignParentRight">true</item>
+		<item name="android:gravity">center</item>
+		<item name="android:layout_gravity">center</item>		
+	</style>
+
+</resources>

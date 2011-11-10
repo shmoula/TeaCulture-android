@@ -81,8 +81,8 @@ public class MainActivity extends ListActivity {
 		registerForContextMenu(getListView());
 		
 		// Pridani hlavicky a paticky do seznamu
-		getListView().addFooterView(createFooterView());
-		getListView().addHeaderView(createHeaderView());
+		//getListView().addFooterView(createFooterView());
+		//getListView().addHeaderView(createHeaderView());
     }
     
     @Override
@@ -160,6 +160,24 @@ public class MainActivity extends ListActivity {
 		
 		mTvHeader.setText(accuracy);
 	}
+	
+	/**
+	 * Event volany pri kliknuti na ikonku v ActionBaru
+	 * @param view
+	 */
+	public void showInfo(View view) {
+		Intent intent = new Intent();
+		
+		intent.setClass(MainActivity.this, InfoActivity.class);
+		startActivity(intent);
+	}
+	
+	/**
+	 * Event volany pri stisknuti ikonky refresh v actionBaru
+	 */
+	public void doRefresh(View view) {
+		new GetTeaRoomsTask().execute();
+	}
     
     /**
      * Helper pro nastaveni pozice
@@ -189,7 +207,7 @@ public class MainActivity extends ListActivity {
     private void setNewLocation(Location location, boolean disableUpdates) {
     	mMyLocation = location;
     	
-    	updateHeaderLine();
+    	//updateHeaderLine();
     	
     	if(disableUpdates)
     		mLocationManager.removeUpdates(mLocationListener);
@@ -301,7 +319,7 @@ public class MainActivity extends ListActivity {
 	 * @return
 	 */
 	private String getTearoomParameter(int position, String key){
-		position -= 1; // polozky jsou o jednu posunute diky zahlavi
+		//position -= 1; // polozky jsou o jednu posunute diky zahlavi
 		
 		Object o = mTearoomAdapter.getItem(position);
 		if(o instanceof Map){
@@ -332,7 +350,7 @@ public class MainActivity extends ListActivity {
 	    case R.id.troom_list_menu_map:
 	    	return true;
 	    case R.id.troom_list_menu_info:  // Otevreni obrazovky s informacema
-			intent.setClass(MainActivity.this, InfoActivity.class);
+	    	intent.setClass(MainActivity.this, InfoActivity.class);
 			startActivity(intent);
 			
 	    	return true;
@@ -347,7 +365,7 @@ public class MainActivity extends ListActivity {
 	}
     
     private void showLoadingProgressDialog() {
-		mProgressDialog = ProgressDialog.show(this, "", "Nacitam, strpeni prosim...", true);
+		mProgressDialog = ProgressDialog.show(this, "", getString(R.string.loading), true);
 	}
 
 	private void dismissProgressDialog() {
@@ -371,7 +389,9 @@ public class MainActivity extends ListActivity {
 		List<Map<String, String>> tearooms = new ArrayList<Map<String, String>>();
 		
 		// hodnota - vzdalenost, do ktere se budou zobrazovat cajovny
-		int distanceFilter = mSettings.getSavedDistanceVal();
+		//int distanceFilter = mSettings.getSavedDistanceVal();
+		
+		int tearoomCounter = 0; // pocitadlo - po dosazeni 30 se prerusi vypis
 		
 		// iterace skrze natazene cajovny a buildovani modelu pro view
 		for (Tearoom tearoom : tearoomList) {
@@ -379,8 +399,10 @@ public class MainActivity extends ListActivity {
 			
 			// odhad vzdalenosti
 			GeoPoint geoPoint = new GeoPoint(tearoom.getLat(), tearoom.getLng());
-			float distance = geoPoint.distanceTo(mMyLocation);
-			if(distance > distanceFilter) continue; // filtrovani vzdalenych cajoven
+			//float distance = geoPoint.distanceTo(mMyLocation);
+			//if(distance > distanceFilter) continue; // filtrovani vzdalenych cajoven
+			
+			if(++tearoomCounter > 30) break;
 			
 			// vlozeni jednotlivych hodnot pro adapter
 			tearoomInfo.put("id", Long.toString(tearoom.getId()));
@@ -388,7 +410,7 @@ public class MainActivity extends ListActivity {
 			tearoomInfo.put("lat", Double.toString(tearoom.getLat()));
 			tearoomInfo.put("lng", Double.toString(tearoom.getLng()));
 			tearoomInfo.put("city", tearoom.getCity());
-			tearoomInfo.put("opened", Tea.getOpenedStatus(tearoom.getOpen_hours()));
+			tearoomInfo.put("opened", Tea.getOpenedStatus(tearoom.getOpen_hours(), getApplicationContext()));
 			
 			tearooms.add(tearoomInfo);
 		}

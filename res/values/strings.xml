@@ -2,7 +2,14 @@
 <resources>
     <string name="app_name">TeaCulture</string>
 
-    <string name="no_tearooms_around">Zadne cajovny neodpovidaji zvolenemu filtru</string>
+    <string name="no_tearooms_around">Žádné čajovny neodpovídají zvolenému filtru</string>
+    
+    <string name="loading">Načítám, strpení prosím...</string>
+    
+    <string name="still_opened">Otevřeno ještě</string>
+    <string name="opened">Otevřeno</string>
+    <string name="still_closed">Zavřeno ještě</string>
+    <string name="closed">Zavřeno</string>
     
     <string name="menu_refresh">Refresh</string>
     <string name="menu_map">Mapa</string>
@@ -11,12 +18,13 @@
     <string name="context_details">Detaily</string>
     <string name="context_navigate_to">Spustit navigaci</string>
     
-    <string name="info">Android klient pro web TeaCulture.</string>
-    <string name="author">---</string>
-    <string name="website">Stranky projektu jsou http://www.teaculture.cz/</string>
-    <string name="source">Zdrojak je na https://github.com/shmoula/TeaCulture-android</string>
     
-    <string name="use_gps">Presnejsi urceni polohy (GPS)</string>
-    <string name="settings">Nastaveni</string>
-    <string name="distance_filter">Zobrazovat cajovny v okruhu</string>
+    <string name="info">Hledejte nejbližší čajovny jediným kliknutím - jednoduše, rychle a přehledně!</string>
+    <string name="author">Feedback k webu směrujte prosím na @michal_hantl, \nk aplikaci na @shMoula.</string>
+    <string name="website">http://www.teaculture.cz</string>
+    
+    
+    <string name="use_gps">Přesnější určení polohy (GPS)</string>
+    <string name="settings">Nastavení</string>
+    <string name="distance_filter">Zobrazovat čajovny v okruhu</string>
 </resources>

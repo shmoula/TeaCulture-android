@@ -2,35 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:padding="5dip">
+	android:layout_height="fill_parent"
+	android:background="#ffffff">
+	
+	<LinearLayout style="@style/action_bar">
+		<ImageView 
+			style="@style/action_bar_action"
+			android:onClick="goHome" />
+		<View style="@style/action_bar_separator" />
+		<TextView style="@style/action_bar_title" />
+	</LinearLayout>
 
-	<TextView 
+	<TextView
+		style="@style/troomlist_title"
 		android:text="@string/app_name"
+		android:layout_gravity="center"
+		android:gravity="center"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 	/>
+	
+	<ImageView
+		android:layout_width="93dip"
+		android:layout_height="128dip"
+		android:layout_margin="10dip"
+		android:layout_gravity="center"
+		android:gravity="center"
+		android:scaleType="fitXY"
+		android:src="@drawable/tc_logo" />
+						
 	<TextView 
+		style="@style/info_text"
 		android:text="@string/info"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 	/>
+	
 	<TextView
+		style="@style/info_text"
 		android:text="@string/author"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:paddingLeft="10dip"
 		android:autoLink="all"
 	/>
-	<TextView 
-		android:text="@string/website"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:paddingLeft="10dip"
-		android:autoLink="web"
-	/>
+	
 	<TextView
-		android:text="@string/source"
+		style="@style/info_text"
+		android:text="@string/website"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:paddingLeft="10dip"
