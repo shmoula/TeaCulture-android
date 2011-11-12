@@ -64,13 +64,13 @@ public class Tea {
 			if(currentMinute >= open && currentMinute <= close){
 				int howLong = close - currentMinute;  // doba do zaviracky v minutach
 				if(howLong < 120 && howLong > 0)
-					result = context.getString(R.string.still_opened) + howLong + " minut";
+					result = context.getString(R.string.still_opened) + " " + howLong + " minut";
 				else
 					result = context.getString(R.string.opened);
 			}else{ // pokud je zavreno, tak to stejne :-)
 				int howLong = open - currentMinute;  // doba do otviracky v minutach
 				if(howLong < 120 && howLong > 0)
-					result = context.getString(R.string.still_closed) + howLong + " minut.";
+					result = context.getString(R.string.still_closed) + " " + howLong + " minut.";
 				else
 					result = context.getString(R.string.closed);
 			}

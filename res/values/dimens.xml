@@ -3,4 +3,6 @@
   <dimen name="actionbar_height">45dip</dimen>
   <dimen name="actionbar_separator_height">37dip</dimen>
   <dimen name="actionbar_separator_width">2dip</dimen>
+  
+  <dimen name="details_separator_bar_height">25dip</dimen>
 </resources>

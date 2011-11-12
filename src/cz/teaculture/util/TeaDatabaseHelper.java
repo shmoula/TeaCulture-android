@@ -32,6 +32,9 @@ public class TeaDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_LAT = "lat";
     private static final String COLUMN_LNG = "lng";
     private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_WEBSITE = "website";
+    private static final String COLUMN_PHONE = "phone";
+    private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_WIFI = "wifi";
     private static final String COLUMN_OPEN_HOURS = "open";
     
@@ -45,6 +48,9 @@ public class TeaDatabaseHelper extends SQLiteOpenHelper {
     													+ COLUMN_LAT + " REAL,"
     													+ COLUMN_LNG + " REAL,"
     													+ COLUMN_NAME + " TEXT,"
+    													+ COLUMN_WEBSITE + " TEXT,"
+    													+ COLUMN_PHONE + " TEXT,"
+    													+ COLUMN_EMAIL + " TEXT,"
     													+ COLUMN_WIFI + " INTEGER,"
     													+ COLUMN_OPEN_HOURS + " DATA"
     													+ ");";
@@ -63,7 +69,7 @@ public class TeaDatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = getReadableDatabase();
 		
 		Cursor cursor = db.query(TABLE_NAME, 
-				new String[] {COLUMN_ID, COLUMN_CITY, COLUMN_ADDRESS, COLUMN_CHANGED, COLUMN_LAT, COLUMN_LNG, COLUMN_NAME, COLUMN_WIFI, COLUMN_OPEN_HOURS},
+				new String[] {COLUMN_ID, COLUMN_CITY, COLUMN_ADDRESS, COLUMN_CHANGED, COLUMN_LAT, COLUMN_LNG, COLUMN_NAME, COLUMN_WEBSITE, COLUMN_PHONE, COLUMN_EMAIL, COLUMN_WIFI, COLUMN_OPEN_HOURS},
 				null, null, null, null, null
 		);
 		
@@ -91,7 +97,7 @@ public class TeaDatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = getReadableDatabase();
 		
 		Cursor cursor = db.query(TABLE_NAME, 
-				new String[] {COLUMN_ID, COLUMN_CITY, COLUMN_ADDRESS, COLUMN_CHANGED, COLUMN_LAT, COLUMN_LNG, COLUMN_NAME, COLUMN_WIFI, COLUMN_OPEN_HOURS},
+				new String[] {COLUMN_ID, COLUMN_CITY, COLUMN_ADDRESS, COLUMN_CHANGED, COLUMN_LAT, COLUMN_LNG, COLUMN_NAME, COLUMN_WEBSITE, COLUMN_PHONE, COLUMN_EMAIL, COLUMN_WIFI, COLUMN_OPEN_HOURS},
 				COLUMN_ID + "=" + id, null, null, null, null
 		);
 		
@@ -127,6 +133,9 @@ public class TeaDatabaseHelper extends SQLiteOpenHelper {
 		tearoom.setLat(cursor.getDouble(cursor.getColumnIndex(COLUMN_LAT)));
 		tearoom.setLng(cursor.getDouble(cursor.getColumnIndex(COLUMN_LNG)));
 		tearoom.setName(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)));
+		tearoom.setWebsite(cursor.getString(cursor.getColumnIndex(COLUMN_WEBSITE)));
+		tearoom.setPhone(cursor.getString(cursor.getColumnIndex(COLUMN_PHONE)));
+		tearoom.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)));
 		tearoom.setWifi(cursor.getInt(cursor.getColumnIndex(COLUMN_WIFI)) != 0);
 		
 		return tearoom;
@@ -176,6 +185,9 @@ public class TeaDatabaseHelper extends SQLiteOpenHelper {
 	    	dataToInsert.put(COLUMN_LAT, tea.getLat());
 	    	dataToInsert.put(COLUMN_LNG, tea.getLng());
 	    	dataToInsert.put(COLUMN_NAME, tea.getName());
+	    	dataToInsert.put(COLUMN_WEBSITE, tea.getWebsite());
+	    	dataToInsert.put(COLUMN_PHONE, tea.getPhone());
+	    	dataToInsert.put(COLUMN_EMAIL, tea.getEmail());
 	    	dataToInsert.put(COLUMN_WIFI, tea.isWifi());
 		} catch (IOException e) {
 			e.printStackTrace();

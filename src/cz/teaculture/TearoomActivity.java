@@ -58,6 +58,14 @@ public class TearoomActivity extends Activity {
 	}
 	
 	/**
+	 * Akce v actionbaru - jit domu :-)
+	 * @param view
+	 */
+	public void goHome(View view) {
+		finish();
+	}
+	
+	/**
 	 * doplni texty pro jednotlive views
 	 */
 	private void fillViewsWithInfo(){
@@ -67,9 +75,43 @@ public class TearoomActivity extends Activity {
 		TextView tvOpeningTimes = (TextView) findViewById(R.id.tearoom_opening_times);
 		tvOpeningTimes.setText(getFormattedOpeningTimes());
 		
+		TextView tvContacts = (TextView) findViewById(R.id.tearoom_contacts);
+		tvContacts.setText(getContacts());
+		
+		TextView tvAddress = (TextView) findViewById(R.id.tearoom_address);
+		tvAddress.setText(getString(R.string.address) + mTearoom.getAddress());
+		
+		if(mTearoom.isWifi()) {
+			TextView tvWifi = (TextView) findViewById(R.id.tearoom_wifi);
+			tvWifi.setText(getString(R.string.we_have_wifi));
+		}
+		
 		Button bNavigate = (Button) findViewById(R.id.tearoom_navigate);
 		bNavigate.setOnClickListener(new NavigateButtonListener());
 	}
+	
+	/**
+	 * Sesklada dohromady kontakty
+	 * @return
+	 */
+	private String getContacts(){
+		String website = mTearoom.getWebsite();
+		String phone = mTearoom.getPhone();
+		String email = mTearoom.getEmail();
+		String result = "";
+		
+		if(website != null & website != "")
+			result += getString(R.string.web) + " " + website + "\n";
+		
+		if(phone != null & phone != "")
+			result += getString(R.string.phone) + " " + phone + "\n";
+		
+		if(email != null & email != "")
+			result += getString(R.string.email) + " " + email + "\n";
+		
+		return result;
+	}
+
 	
 	/**
 	 * Vraci naformatovany string s oteviraci dobou aktualni cajovny
@@ -78,7 +120,15 @@ public class TearoomActivity extends Activity {
 	private String getFormattedOpeningTimes(){
 		String result = "";
 		List<List<Short>> openingTimes = mTearoom.getOpen_hours();
-		String days[] = { "Pondeli", "Utery", "Streda", "Ctvrtek", "Patek", "Sobota", "Nedele" };
+		String days[] = { 
+				getString(R.string.monday), 
+				getString(R.string.tuesday),
+				getString(R.string.wednesday),
+				getString(R.string.thursday),
+				getString(R.string.friday),
+				getString(R.string.saturday),
+				getString(R.string.sunday)
+		};
 		short dayIndex = 0;
 		
 		for(List<Short> oneDay : openingTimes){

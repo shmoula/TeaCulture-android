@@ -2,22 +2,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:padding="5dip">
+	android:layout_height="fill_parent"
+	android:background="#ffffff">
 	
-	<TextView android:id="@+id/tearoom_name"
-    		android:layout_width="fill_parent"
-    		android:layout_height="fill_parent"
-    		android:gravity="center_horizontal"
-    		android:textSize="23sp"
-    		android:textStyle="bold"/>
-    		
-    <TextView 
-		android:id="@+id/tearoom_opening_times"
+	<LinearLayout style="@style/action_bar">
+		<ImageView 
+			style="@style/action_bar_action"
+			android:onClick="goHome" />
+		<View style="@style/action_bar_separator" />
+		<TextView style="@style/action_bar_title" />
+	</LinearLayout>
+	
+	<TextView
+		style="@style/title"
+		android:id="@+id/tearoom_name"
+		android:layout_gravity="center"
+		android:gravity="center"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 	/>
-    		
+	
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="#ffffff">
+		
+		<ImageView
+			android:layout_width="93dip"
+			android:layout_height="128dip"
+			android:layout_margin="10dip"
+			android:scaleType="fitXY"
+			android:src="@drawable/tc_logo" />
+		
+    	<TextView 
+    		style="@style/details_text"
+    		android:paddingTop="10dip"
+    		android:paddingRight="4dip"
+			android:id="@+id/tearoom_opening_times"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:gravity="right"
+			android:layout_gravity="right"
+		/>
+	</LinearLayout>
+	
+	<!-- 
+	<LinearLayout style="@style/details_separator_bar">
+		<TextView 
+			style="@style/details_separator_bar_title"
+			android:text="@string/contact" />
+	</LinearLayout>
+	 -->
+	
+	<TextView 
+    		style="@style/details_text"
+			android:id="@+id/tearoom_contacts"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+		/>
+	
+	<TextView 
+    		style="@style/details_text"
+			android:id="@+id/tearoom_address"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+		/>
+		 
+	<TextView 
+    		style="@style/details_text"
+			android:id="@+id/tearoom_wifi"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+		/>
+    
     <Button 
 		android:id="@+id/tearoom_navigate"
 		android:text="@string/context_navigate_to"

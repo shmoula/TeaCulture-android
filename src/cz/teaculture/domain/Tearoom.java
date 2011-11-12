@@ -23,6 +23,11 @@ public class Tearoom implements Serializable {
     private Double lat;
     private Double lng;
     private String name;
+    private String website;
+    private String phone;
+    private String email;
+    private String facebook;
+    private String twitter_handle;
     private boolean wifi;
     private List<List<Short>> open_hours;
 	
@@ -68,6 +73,36 @@ public class Tearoom implements Serializable {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getWebsite() {
+		return website;
+	}
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getFacebook() {
+		return facebook;
+	}
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+	public String getTwitter_handle() {
+		return twitter_handle;
+	}
+	public void setTwitter_handle(String twitter_handle) {
+		this.twitter_handle = twitter_handle;
 	}
 	public boolean isWifi() {
 		return wifi;

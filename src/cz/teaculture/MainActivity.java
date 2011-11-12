@@ -329,6 +329,7 @@ public class MainActivity extends ListActivity {
 		return null;
 	}
     
+	/*
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    super.onCreateOptionsMenu(menu);
@@ -339,6 +340,7 @@ public class MainActivity extends ListActivity {
 	    return true;
 	}
 	
+    
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent = new Intent();
@@ -363,6 +365,7 @@ public class MainActivity extends ListActivity {
 	        return super.onOptionsItemSelected(item);
 	    }
 	}
+    */
     
     private void showLoadingProgressDialog() {
 		mProgressDialog = ProgressDialog.show(this, "", getString(R.string.loading), true);
