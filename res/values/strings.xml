@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">TeaCulture</string>
 
-    <string name="no_tearooms_around">Žádné čajovny neodpovídají zvolenému filtru</string>
+    <string name="no_tearooms_around">Jste připojeni k internetu?</string>
     
     <string name="loading">Načítám, strpení prosím...</string>
     

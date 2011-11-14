@@ -119,7 +119,7 @@ public class TearoomActivity extends Activity {
 	 */
 	private String getFormattedOpeningTimes(){
 		String result = "";
-		List<List<Short>> openingTimes = mTearoom.getOpen_hours();
+		List<List<Short>> openingTimes = mTearoom.getOpen_hours(false);
 		String days[] = { 
 				getString(R.string.monday), 
 				getString(R.string.tuesday),
@@ -146,7 +146,11 @@ public class TearoomActivity extends Activity {
 		String result = "";
 		
 		Short morning = dayTime.get(0);
-		Short evening = dayTime.get(1); 
+		Short evening = dayTime.get(1);
+		
+		// Kdyz je oboji vynulovano, tak je zavreno
+		if(morning == 0 && evening == 0)
+			return getString(R.string.closed);
 		
 		result += (morning/60) + ":" + String.format("%02d", morning%60) + " - " + (evening/60) + ":" + String.format("%02d", evening%60);
 		

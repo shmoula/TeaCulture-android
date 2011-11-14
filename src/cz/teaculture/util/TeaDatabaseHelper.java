@@ -176,7 +176,7 @@ public class TeaDatabaseHelper extends SQLiteOpenHelper {
     	
 		// Zacneme hodinama, protoze ty maji sanci padnout na hubu - potom se nevlozi nic ;-)
     	try {
-			dataToInsert.put(COLUMN_OPEN_HOURS, Stuff.getObjectAsByteArray(tea.getOpen_hours()));
+			dataToInsert.put(COLUMN_OPEN_HOURS, Stuff.getObjectAsByteArray(tea.getOpen_hours(true)));
 			
 			dataToInsert.put(COLUMN_ID, tea.getId());
 	    	dataToInsert.put(COLUMN_CITY, tea.getCity());

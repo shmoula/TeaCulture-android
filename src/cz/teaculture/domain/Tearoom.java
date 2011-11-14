@@ -125,10 +125,21 @@ public class Tearoom implements Serializable {
 	
 	/**
 	 * Oteviraci doba podniku v minutach
+	 * @param priznak, zda zacinat tyden nedeli
 	 * @return output/60 = hodina otevreni/zavreni
 	 */
-	public List<List<Short>> getOpen_hours() {
-		return open_hours;
+	public List<List<Short>> getOpen_hours(boolean startWithSunday) {
+		if(startWithSunday)
+			return open_hours;
+		
+		// Pokud mame zacinat pondelim a ne nedeli, tak to musime trochu zprehazet :-p
+		List<List<Short>> hoursByMonday = new ArrayList<List<Short>>(7);
+		
+		hoursByMonday.addAll(open_hours);
+		hoursByMonday.remove(0);               // odstranim nedeli
+		hoursByMonday.add(open_hours.get(0));  // pridam nedeli
+		
+		return hoursByMonday;
 	}
 	public void setOpen_hours(List<List<Short>> open_hours) {
 		this.open_hours = open_hours;
@@ -145,7 +156,6 @@ public class Tearoom implements Serializable {
 		for(Iterator<List<Short>> i = open_hours.iterator() ; i.hasNext() ; ){
 			List<Short> oneDay = i.next();
 			openingTimes.add(oneDay.get(morning ? 0 : 1));
-			
 		}
 		
 		return openingTimes;

@@ -28,8 +28,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -280,8 +278,10 @@ public class MainActivity extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 		
 		// Osetreni uzivatelova kliknuti na header nebo footer
+		/*
 		if(position == 0 || position > mTearoomAdapter.getCount())
 			return;
+		*/
 		
 		String tearoomId = getTearoomParameter(position, "id");
 		openTearoomDetails(tearoomId);
@@ -413,7 +413,7 @@ public class MainActivity extends ListActivity {
 			tearoomInfo.put("lat", Double.toString(tearoom.getLat()));
 			tearoomInfo.put("lng", Double.toString(tearoom.getLng()));
 			tearoomInfo.put("city", tearoom.getCity());
-			tearoomInfo.put("opened", Tea.getOpenedStatus(tearoom.getOpen_hours(), getApplicationContext()));
+			tearoomInfo.put("opened", Tea.getOpenedStatus(tearoom.getOpen_hours(true), getApplicationContext()));
 			
 			tearooms.add(tearoomInfo);
 		}

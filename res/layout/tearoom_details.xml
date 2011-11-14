@@ -60,6 +60,7 @@
 			android:id="@+id/tearoom_contacts"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:autoLink="web"
 		/>
 	
 	<TextView 
