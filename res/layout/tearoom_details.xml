@@ -13,6 +13,17 @@
 		<TextView style="@style/action_bar_title" />
 	</LinearLayout>
 	
+	<ScrollView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:padding="4dp"
+			android:orientation="vertical" >
+	<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginTop="10dp"
+				android:orientation="vertical" >
+	
 	<TextView
 		style="@style/title"
 		android:id="@+id/tearoom_name"
@@ -28,16 +39,16 @@
 		android:background="#ffffff">
 		
 		<ImageView
-			android:layout_width="93dip"
-			android:layout_height="128dip"
-			android:layout_margin="10dip"
+			android:layout_width="93dp"
+			android:layout_height="128dp"
+			android:layout_margin="10dp"
 			android:scaleType="fitXY"
 			android:src="@drawable/tc_logo" />
 		
     	<TextView 
     		style="@style/details_text"
-    		android:paddingTop="10dip"
-    		android:paddingRight="4dip"
+    		android:paddingTop="10dp"
+    		android:paddingRight="4dp"
 			android:id="@+id/tearoom_opening_times"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -83,4 +94,7 @@
 		
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" />
+		
+	</LinearLayout>
+	</ScrollView>
 </LinearLayout>

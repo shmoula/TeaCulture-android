@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-  <dimen name="actionbar_height">45dip</dimen>
-  <dimen name="actionbar_separator_height">37dip</dimen>
-  <dimen name="actionbar_separator_width">2dip</dimen>
+  <dimen name="actionbar_height">45dp</dimen>
+  <dimen name="actionbar_separator_height">37dp</dimen>
+  <dimen name="actionbar_separator_width">2dp</dimen>
   
-  <dimen name="details_separator_bar_height">25dip</dimen>
+  <dimen name="details_separator_bar_height">25dp</dimen>
 </resources>

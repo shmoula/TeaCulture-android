@@ -4,8 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#ffffff"
-    android:paddingTop="5dip"
-    android:paddingBottom="5dip">
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
     
 	<TextView android:id="@+id/name"
         style="@style/troomlist_title"
@@ -32,7 +32,7 @@
             
             android:layout_gravity="right"
 			android:gravity="right"
-			android:paddingRight="12dip"
+			android:paddingRight="12dp"
             
             style="@style/troomlist_item"
     	/>

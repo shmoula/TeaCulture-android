@@ -14,7 +14,7 @@
 	<style name="action_bar_icon_teaculture">
 		<item name="android:layout_width">@dimen/actionbar_height</item>
 		<item name="android:layout_height">@dimen/actionbar_height</item>
-		<item name="android:padding">4dip</item>
+		<item name="android:padding">4dp</item>
 		<item name="android:scaleType">center</item>
 		<item name="android:focusable">true</item>
 		<item name="android:src">@drawable/actionbar_teaculture</item>
@@ -23,15 +23,15 @@
 	
 	<style name="action_bar_title">
 		<item name="android:id">@id/actionbar_title</item>
-		<item name="android:layout_width">0dip</item>
+		<item name="android:layout_width">0dp</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:layout_weight">1</item>
-		<item name="android:paddingLeft">6dip</item>
+		<item name="android:paddingLeft">6dp</item>
 		<item name="android:singleLine">true</item>
 		<item name="android:scrollHorizontally">true</item>
 		<item name="android:ellipsize">marquee</item>
 		<item name="android:lines">1</item>
-		<item name="android:textSize">20dip</item>
+		<item name="android:textSize">20sp</item>
 		<item name="android:textColor">@color/just_white</item>
 		<item name="android:text">@string/app_name</item>
 	</style>
@@ -45,7 +45,7 @@
 	<style name="action_bar_action">
 		<item name="android:layout_width">@dimen/actionbar_height</item>
 		<item name="android:layout_height">@dimen/actionbar_height</item>
-		<item name="android:padding">2dip</item>
+		<item name="android:padding">2dp</item>
 		<item name="android:scaleType">center</item>
 		<item name="android:focusable">true</item>
 		<item name="android:src">@drawable/actionbar_home</item>			<!-- Tohle je standardne pretizeny, ale ulehcuje to :-) -->
@@ -54,12 +54,12 @@
 	
 
 	<style name="title">
-		<item name="android:padding">6dip</item>
+		<item name="android:padding">6dp</item>
 		<item name="android:singleLine">true</item>
 		<item name="android:scrollHorizontally">true</item>
 		<item name="android:ellipsize">marquee</item>
 		<item name="android:lines">1</item>
-		<item name="android:textSize">20dip</item>
+		<item name="android:textSize">20sp</item>
 		<item name="android:textColor">@color/just_black</item>
 		<item name="android:textStyle">bold</item>
 	</style>
@@ -72,22 +72,22 @@
 	</style>
 	
 	<style name="troomlist_title">
-		<item name="android:paddingLeft">6dip</item>
-		<item name="android:paddingBottom">5dip</item>
+		<item name="android:paddingLeft">6dp</item>
+		<item name="android:paddingBottom">5dp</item>
 		<item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">0dip</item>
+        <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
 		<item name="android:singleLine">true</item>
 		<item name="android:scrollHorizontally">true</item>
 		<item name="android:ellipsize">marquee</item>
 		<item name="android:lines">1</item>
-		<item name="android:textSize">18dip</item>
+		<item name="android:textSize">18sp</item>
 		<item name="android:textColor">@color/just_black</item>
 		<item name="android:textStyle">bold</item>
 	</style>
 	
 	<style name="troomlist_item">
-		<item name="android:paddingLeft">6dip</item>
+		<item name="android:paddingLeft">6dp</item>
 		<item name="android:singleLine">true</item>
 		<item name="android:scrollHorizontally">true</item>
 		<item name="android:ellipsize">marquee</item>
@@ -105,15 +105,15 @@
 	</style>
 	
 	<style name="details_separator_bar_title">
-		<item name="android:layout_width">0dip</item>
+		<item name="android:layout_width">0dp</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:layout_weight">1</item>
-		<item name="android:paddingLeft">6dip</item>
+		<item name="android:paddingLeft">6dp</item>
 		<item name="android:singleLine">true</item>
 		<item name="android:scrollHorizontally">true</item>
 		<item name="android:ellipsize">marquee</item>
 		<item name="android:lines">1</item>
-		<item name="android:textSize">12dip</item>
+		<item name="android:textSize">12sp</item>
 		<item name="android:textColor">@color/just_black</item>
 	</style>
 	
@@ -123,8 +123,8 @@
 		<item name="android:linksClickable">true</item>
 		<item name="android:focusable">true</item>
 		<item name="android:clickable">true</item>
-		<item name="android:paddingLeft">6dip</item>
-		<item name="android:paddingTop">6dip</item>
+		<item name="android:paddingLeft">6dp</item>
+		<item name="android:paddingTop">6dp</item>
 	</style>
 	
 	<style name="info_text">
@@ -134,9 +134,9 @@
 		<item name="android:focusable">true</item>
 		<item name="android:clickable">true</item>
 					
-		<item name="android:layout_marginLeft">10dip</item>
-		<item name="android:layout_marginRight">10dip</item>
-		<item name="android:layout_marginBottom">5dip</item>
+		<item name="android:layout_marginLeft">10dp</item>
+		<item name="android:layout_marginRight">10dp</item>
+		<item name="android:layout_marginBottom">5dp</item>
 		<item name="android:layout_alignParentRight">true</item>
 		<item name="android:gravity">center</item>
 		<item name="android:layout_gravity">center</item>
