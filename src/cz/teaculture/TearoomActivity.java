@@ -5,6 +5,7 @@ import java.util.List;
 import cz.teaculture.domain.Tearoom;
 import cz.teaculture.util.TeaDatabaseHelper;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,7 +46,8 @@ public class TearoomActivity extends Activity {
 		if(mTearoom != null)
 			fillViewsWithInfo();
 		else{
-			Toast.makeText(getApplicationContext(), "Nastal problem pri nacitani detailu cajovny.", Toast.LENGTH_LONG).show();
+			Context context = getApplicationContext();
+			Toast.makeText(context, context.getString(R.string.tearoom_loading_problem), Toast.LENGTH_LONG).show();
 			finish();
 		}
 	}

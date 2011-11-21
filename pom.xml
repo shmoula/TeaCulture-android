@@ -10,7 +10,7 @@
 
 	<properties>
 		<android-platform>8</android-platform>
-		<maven-android-plugin-version>2.8.4</maven-android-plugin-version>
+		<maven-android-plugin-version>3.0.0-alpha-13</maven-android-plugin-version>
 		<maven-compiler-plugin-version>2.3.2</maven-compiler-plugin-version>
 		<com.google.android-version>2.2.1</com.google.android-version>
 		<org.springframework.android-version>1.0.0.M4</org.springframework.android-version>
@@ -65,7 +65,7 @@
 
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-				<artifactId>maven-android-plugin</artifactId>
+    			<artifactId>android-maven-plugin</artifactId>
 				<version>${maven-android-plugin-version}</version>
 				<configuration>
 					<sdk>
@@ -118,5 +118,10 @@
             <url>http://maven.springframework.org/milestone</url>
             <snapshots><enabled>false</enabled></snapshots>
         </repository>
+		<repository>
+			<id>android-rome-feed-reader-repository</id>
+			<name>Android ROME Feed Reader Repository</name>
+			<url>https://android-rome-feed-reader.googlecode.com/svn/maven2/releases</url>
+		</repository>
 	</repositories>
 </project>

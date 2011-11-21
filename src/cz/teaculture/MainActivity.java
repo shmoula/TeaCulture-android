@@ -10,7 +10,6 @@ import java.util.Map;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import cz.teaculture.domain.GeoPoint;
 import cz.teaculture.domain.Tearoom;
 import cz.teaculture.util.LocationComparator;
 import cz.teaculture.util.Settings;
@@ -36,6 +35,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /**
@@ -386,8 +386,14 @@ public class MainActivity extends ListActivity {
 			return;
 		}
 		
-		// Setrideni seznamu podle vzdalenosti
-		Collections.sort(tearoomList, new LocationComparator(mMyLocation));
+		// Pokud zname lokaci, setridime podle vzdalenosti; jinak hlaska a vypis nesetrideneho pole
+		if(mMyLocation == null) {
+			Context context = getApplicationContext();
+			Toast.makeText(context, context.getString(R.string.geolocation_disabled), Toast.LENGTH_LONG).show();
+		} else {
+			// Setrideni seznamu podle vzdalenosti
+			Collections.sort(tearoomList, new LocationComparator(mMyLocation));
+		}
 		
 		List<Map<String, String>> tearooms = new ArrayList<Map<String, String>>();
 		
@@ -401,7 +407,7 @@ public class MainActivity extends ListActivity {
 			Map<String, String> tearoomInfo = new HashMap<String, String>();
 			
 			// odhad vzdalenosti
-			GeoPoint geoPoint = new GeoPoint(tearoom.getLat(), tearoom.getLng());
+			//GeoPoint geoPoint = new GeoPoint(tearoom.getLat(), tearoom.getLng());
 			//float distance = geoPoint.distanceTo(mMyLocation);
 			//if(distance > distanceFilter) continue; // filtrovani vzdalenych cajoven
 			
