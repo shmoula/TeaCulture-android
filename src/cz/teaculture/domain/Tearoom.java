@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import android.location.Location;
 
 /**
@@ -13,6 +15,7 @@ import android.location.Location;
  * @author vbalak
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Tearoom implements Serializable {
 	private static final long serialVersionUID = 8042671639369119413L;
 	
