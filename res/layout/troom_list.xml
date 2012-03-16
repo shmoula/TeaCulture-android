@@ -8,12 +8,20 @@
     <LinearLayout style="@style/action_bar">
 		<ImageView 
 			style="@style/action_bar_icon_teaculture"
+			android:contentDescription="@string/menu_info"
 			android:onClick="showInfo" />
 		<TextView style="@style/action_bar_title" />
+		<View style="@style/action_bar_separator" />
+		<ImageView 
+			style="@style/action_bar_action"
+			android:src="@drawable/ic_search_category_default"
+			android:contentDescription="@string/menu_search"
+			android:onClick="doSearch" />
 	 	<View style="@style/action_bar_separator" />
 		<ImageView 
 			style="@style/action_bar_action"
-			android:src="@drawable/actionbar_refresh"
+			android:src="@drawable/ic_menu_refresh"
+			android:contentDescription="@string/menu_refresh"
 			android:onClick="doRefresh" />
 	</LinearLayout>
 

@@ -5,6 +5,7 @@
     <string name="no_tearooms_around">Jste připojeni k internetu?</string>
     <string name="geolocation_disabled">Máte povolenou geolokaci?</string>
     <string name="tearoom_loading_problem">Nastal problém při načítání detailů čajovny.</string>
+    <string name="pick_city">Vyberte město:</string>
     
     <string name="loading">Načítám, strpení prosím...</string>
     
@@ -30,6 +31,7 @@
     <string name="menu_refresh">Refresh</string>
     <string name="menu_map">Mapa</string>
     <string name="menu_info">Informace</string>
+    <string name="menu_search">Vyhledat polohu</string>
     
     <string name="context_details">Detaily</string>
     <string name="context_navigate_to">Spustit navigaci</string>

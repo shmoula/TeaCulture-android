@@ -3,9 +3,13 @@ package cz.teaculture;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -16,9 +20,11 @@ import cz.teaculture.util.Settings;
 import cz.teaculture.util.Stuff;
 import cz.teaculture.util.Tea;
 import cz.teaculture.util.TeaDatabaseHelper;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -31,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -176,6 +183,55 @@ public class MainActivity extends ListActivity {
 	public void doRefresh(View view) {
 		new GetTeaRoomsTask().execute();
 	}
+	
+	/**
+	 * Event volany pri stisknuti ikonky search v actionBaru
+	 * @param view
+	 */
+	public void doSearch(View view) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		final Map<String, Location> cityMap = loadSortedCities();
+		final String[] cities = cityMap.keySet().toArray(new String[0]);  // TODO: fffuuuuuuu :-)
+		
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, cities);
+		
+		builder.setTitle(R.string.pick_city);
+		builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int pos) {
+					Toast.makeText(getApplicationContext(), R.string.loading, Toast.LENGTH_LONG).show();
+					setNewLocation(cityMap.get(cities[pos]), true);
+					loadFromDatabase();
+			}
+		});
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+	
+	/**
+	 * Nacte a setridi seznam mest
+	 * TODO: fffuuuuuuu 2 :-)
+	 * @return
+	 */
+	private Map<String, Location> loadSortedCities() {
+		HashMap<String, Location> cityMap = mTeaDatabaseHelper.loadCities();
+		
+		List<Entry<String, Location>> list = new LinkedList<Entry<String, Location>>(cityMap.entrySet());
+		
+		Collections.sort(list, new Comparator<Entry<String, Location>>() {
+			@Override
+			public int compare(Entry<String, Location> o1, Entry<String, Location> o2) {
+				return o1.getKey().compareTo(o2.getKey());
+			}
+		});
+		
+		Map<String, Location> sortedMap = new LinkedHashMap<String, Location>();
+		for (Entry<String, Location> entry : list) {
+		     sortedMap.put(entry.getKey(), entry.getValue());
+		}
+		
+		return sortedMap;
+	}
     
     /**
      * Helper pro nastaveni pozice
@@ -229,7 +285,7 @@ public class MainActivity extends ListActivity {
     	if (tearoomList == null || tearoomList.size() == 0)
     		new GetTeaRoomsTask().execute();
     	else
-    		refreshTreeList(tearoomList);
+    		refreshTeaList(tearoomList);
     }
     
     
@@ -381,7 +437,7 @@ public class MainActivity extends ListActivity {
 	 * Touto metodou se preda listu seznam cajoven (z db ci z netu)
 	 * @param tearoomList
 	 */
-	private void refreshTreeList(List<Tearoom> tearoomList) {
+	private void refreshTeaList(List<Tearoom> tearoomList) {
 		if (tearoomList == null || tearoomList.size() == 0){
 			return;
 		}
@@ -466,7 +522,7 @@ public class MainActivity extends ListActivity {
 			if(result == null || result.isEmpty())
 				return;
 			
-			refreshTreeList(result);
+			refreshTeaList(result);
 			
 			// Pokus o zazalohovani nacteneho seznamu cajoven, aby se priste nemuselo nacitat
 			saveToDatabase(result);

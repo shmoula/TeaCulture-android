@@ -3,6 +3,7 @@ package cz.teaculture.util;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import cz.teaculture.domain.Tearoom;
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Location;
 
 /**
  * Helper pro ukladani cajoven do databaze
@@ -79,6 +81,42 @@ public class TeaDatabaseHelper extends SQLiteOpenHelper {
 			for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 				Tearoom tearoom = extractTearoom(cursor);
 				result.add(tearoom);
+			}
+    	
+    		cursor.close();
+    	}
+		
+		return result;
+	}
+	
+	/**
+	 * Vrati seznam mest a souradnic cajoven (v bucketech hashmapy - pro budouci pocitani geoStredu)
+	 * Ted bude vracet pri vyberu prvni nalezenou
+	 * @return
+	 */
+	public HashMap<String, Location> loadCities() {
+		HashMap<String, Location> result = null;
+		SQLiteDatabase db = getReadableDatabase();
+		
+		Cursor cursor = db.query(TABLE_NAME, 
+				new String[] {COLUMN_CITY, COLUMN_LAT, COLUMN_LNG},
+				null, null, null, null, null
+		);
+		
+		if (cursor != null) {
+			result = new HashMap<String, Location>(cursor.getCount());
+			
+			for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+				String city = cursor.getString(cursor.getColumnIndex(COLUMN_CITY));
+				Double lat = cursor.getDouble(cursor.getColumnIndex(COLUMN_LAT));
+				Double lng = cursor.getDouble(cursor.getColumnIndex(COLUMN_LNG));
+				
+				Location location = new Location("pick_" + city);
+	    		location.setLatitude(lat);
+	    		location.setLongitude(lng);
+	    		location.setAccuracy(500);
+	    		
+	    		result.put(city, location);
 			}
     	
     		cursor.close();
