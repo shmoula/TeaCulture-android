@@ -13,6 +13,7 @@
     <string name="opened">Otevřeno</string>
     <string name="still_closed">Zavřeno ještě</string>
     <string name="closed">Zavřeno</string>
+    <string name="unknown">Otevírací doba neznámá</string>
     
     <string name="web">Web: </string>
     <string name="phone">Telefon: </string>

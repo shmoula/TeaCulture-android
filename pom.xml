@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cz.teaculture</groupId>
 	<artifactId>teaculture-client</artifactId>
-	<version>0.1</version>
+	<version>0.2.1</version>
 	<packaging>apk</packaging>
 	<name>teaculture-client</name>
 

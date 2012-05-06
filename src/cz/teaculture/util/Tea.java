@@ -58,6 +58,10 @@ public class Tea {
 			Short open = openingTimes.get(day).get(0);
 			Short close = openingTimes.get(day).get(1);
 			
+			// obcas je vraceno null - nenacetly se korektne casy z webu? nebo chybi?
+			if(open == null || close == null)
+				return context.getString(R.string.unknown);
+			
 			int currentMinute = (cal.get(Calendar.HOUR_OF_DAY) * 60) + cal.get(Calendar.MINUTE);
 			
 			// pokud je otevreno, mrknem, jak dlouho jeste bude

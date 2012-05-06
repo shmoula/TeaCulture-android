@@ -53,7 +53,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 public class MainActivity extends ListActivity {
     private static String TAG = "teacultureMain";
     
-    private static final String URL_ALL_TEAROOMS = "http://www.teaculture.cz/api/tearooms";
+    private static final String URL_ALL_TEAROOMS = "http://1py-optimized.michal-tea-culture.appspot.com/api/tearooms"; //"http://www.teaculture.cz/api/tearooms";
     
     private static final int SHOW_TEAROOM_DETAILS_ID = 0;
     private static final int NAVIGATE_TO_ID = 1;

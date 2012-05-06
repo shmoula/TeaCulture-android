@@ -20,7 +20,7 @@ public class Tearoom implements Serializable {
 	private static final long serialVersionUID = 8042671639369119413L;
 	
 	private String address;
-    private Date changed_at;
+    //private Date changed_at;
     private String city;
     private Long id;
     private Double lat;
@@ -41,12 +41,12 @@ public class Tearoom implements Serializable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Date getChanged_at() {
+	/*public Date getChanged_at() {
 		return changed_at;
 	}
 	public void setChanged_at(Date changed_at) {
 		this.changed_at = changed_at;
-	}
+	}*/
 	public String getCity() {
 		return city;
 	}

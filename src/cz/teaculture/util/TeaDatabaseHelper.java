@@ -167,7 +167,7 @@ public class TeaDatabaseHelper extends SQLiteOpenHelper {
 		tearoom.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
 		tearoom.setCity(cursor.getString(cursor.getColumnIndex(COLUMN_CITY)));
 		tearoom.setAddress(cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS)));
-		tearoom.setChanged_at(new Date(cursor.getInt(cursor.getColumnIndex(COLUMN_CHANGED))));
+		//tearoom.setChanged_at(new Date(cursor.getInt(cursor.getColumnIndex(COLUMN_CHANGED))));
 		tearoom.setLat(cursor.getDouble(cursor.getColumnIndex(COLUMN_LAT)));
 		tearoom.setLng(cursor.getDouble(cursor.getColumnIndex(COLUMN_LNG)));
 		tearoom.setName(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)));
@@ -219,7 +219,7 @@ public class TeaDatabaseHelper extends SQLiteOpenHelper {
 			dataToInsert.put(COLUMN_ID, tea.getId());
 	    	dataToInsert.put(COLUMN_CITY, tea.getCity());
 	    	dataToInsert.put(COLUMN_ADDRESS, tea.getAddress());
-	    	dataToInsert.put(COLUMN_CHANGED, tea.getChanged_at().getTime());
+	    	//dataToInsert.put(COLUMN_CHANGED, tea.getChanged_at().getTime());
 	    	dataToInsert.put(COLUMN_LAT, tea.getLat());
 	    	dataToInsert.put(COLUMN_LNG, tea.getLng());
 	    	dataToInsert.put(COLUMN_NAME, tea.getName());
